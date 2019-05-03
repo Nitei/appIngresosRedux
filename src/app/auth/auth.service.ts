@@ -5,13 +5,21 @@ import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { User } from './user.model';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.reducer';
+import * as UI from '../shared/ui.acciones';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private af: AngularFireAuth, private router: Router, private afDb: AngularFirestore) { }
+  constructor(
+    private af: AngularFireAuth,
+    private router: Router,
+    private afDb: AngularFirestore,
+    private store: Store<AppState>,
+    ) { }
 
   isAuth() {
     return this.af.authState
@@ -32,6 +40,7 @@ export class AuthService {
   }
 
   crearUsuario(nombre: string, email: string, password: string): any {
+    this.store.dispatch( new UI.ActivarLoadingAction() );
     this.af.auth
       .createUserWithEmailAndPassword(email, password)
       .then( resp => {
@@ -45,21 +54,24 @@ export class AuthService {
           .set(user)
             .then(() => {
               this.router.navigate(['dashboard']);
+              this.store.dispatch( new UI.DesactivarLoadingAction() );
             })
             .catch(error => console.error(error));
       })
       .catch((error: any) => {
       console.error(error);
+      this.store.dispatch( new UI.DesactivarLoadingAction() );
       Swal.fire('Error en el login', error['message'], 'error');
     });
   }
 
   login(email: string, password: string) {
+    this.store.dispatch( new UI.ActivarLoadingAction() );
     this.af.auth
     .signInWithEmailAndPassword(email, password)
     .then( data => {
+      this.store.dispatch( new UI.DesactivarLoadingAction() );
       this.router.navigate(['dashboard']);
-      console.log(data);
     })
     .catch((error: any) => {
       console.error(error);
@@ -68,8 +80,10 @@ export class AuthService {
   }
 
   logout() {
-    this.router.navigate(['/login']);
-    this.af.auth.signOut();
+    this.af.auth.signOut()
+      .then( () => {
+        this.router.navigate(['/login']);
+      });
   }
 
 
