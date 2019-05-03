@@ -8,11 +8,15 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 import * as UI from '../shared/ui.acciones';
+import { SetUserAction } from './auth.actions';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  private userSubscription: Subscription = new Subscription();
 
   constructor(
     private af: AngularFireAuth,
@@ -34,8 +38,16 @@ export class AuthService {
   }
 
   initAuthListener() {
-    this.af.authState.subscribe(fbUser => {
-      console.log(fbUser);
+    this.userSubscription = this.af.authState.subscribe(fbUser => {
+      if (fbUser) {
+        this.afDb.doc(`${fbUser}/usuario`).valueChanges()
+          .subscribe( (usuario: any) => {
+            const newUser = new User(usuario);
+            this.store.dispatch(new SetUserAction(newUser));
+          });
+      } else {
+        this.userSubscription.unsubscribe();
+      }
     });
   }
 
