@@ -1,7 +1,7 @@
 export class User {
     public nombre: string;
     public email: string;
-    public uid: string;
+    public uid?: string;
 
     constructor( obj: DataObj ) {
         this.nombre = obj && obj.nombre || null;
