@@ -4,12 +4,17 @@ import { IngresoEgreso } from './ingreso-egreso.model';
 import { AuthService } from '../auth/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { SetItemsAction } from './ingreso-egreso.actions';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IngresoEgresoService {
+
+  IngresoEgresoListenerSubscription: Subscription = new Subscription;
+  IngresoEgresoItemsListenerSubscription: Subscription = new Subscription;
 
 
   constructor(
@@ -19,8 +24,7 @@ export class IngresoEgresoService {
     ) { }
 
   initIngresoEgresoLitener() {
-    const user = this.authService.getUsuario();
-    this.store.select('auth')
+    this.IngresoEgresoItemsListenerSubscription = this.store.select('auth')
     .pipe(
       filter(auth => auth.user != null)
     )
@@ -30,9 +34,26 @@ export class IngresoEgresoService {
   }
 
   private IngresoEgresoItems(uid: string) {
-    this.afDb.collection(`${uid}/ingresos-egresos/items`)
-      .valueChanges()
-      .subscribe(data => console.log(data));
+    this.IngresoEgresoItemsListenerSubscription = this.afDb.collection(`${ uid }/ingresos-egresos/items`)
+      .snapshotChanges()
+      .pipe(
+        map( docData => {
+          return docData.map( doc => {
+            return {
+              ...doc.payload.doc.data(),
+              uid: doc.payload.doc.id
+            };
+          });
+        })
+      )
+      .subscribe((data: any[]) => {
+        this.store.dispatch( new SetItemsAction(data));
+        });
+  }
+
+  cancelarSubscriptions() {
+    this.IngresoEgresoItemsListenerSubscription.unsubscribe();
+    this.IngresoEgresoListenerSubscription.unsubscribe();
   }
 
   crearIngresoEgreso(ingresoEgreso: IngresoEgreso) {
