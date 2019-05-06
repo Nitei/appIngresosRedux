@@ -5,6 +5,8 @@ import { IngresoEgreso } from '../ingreso-egreso.model';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { IngresoEgresoService } from '../ingreso-egreso.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-detalle',
@@ -34,8 +36,9 @@ export class DetalleComponent implements OnInit, OnDestroy {
     this.subsStoreIngresosEgresos.unsubscribe();
   }
 
-  borrarItem(uid: string) {
-    this.IES.borrarIngresoEgreso(uid);
+  borrarItem(item: IngresoEgreso) {
+    this.IES.borrarIngresoEgreso(item.uid).then(() =>
+     Swal.fire('item eliminado', item.descripcion, 'success'));
   }
 
 }
