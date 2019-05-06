@@ -9,8 +9,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 import * as UI from '../shared/ui.acciones';
 import * as firebase from 'firebase';
-import { SetUserAction } from './auth.actions';
+import { SetUserAction, UnsetUserAction } from './auth.actions';
 import { Subscription } from 'rxjs';
+import { IngresoEgresoService } from '../ingreso-egreso/ingreso-egreso.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,8 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private router: Router,
     private afDb: AngularFirestore,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public ingresoEgresoService: IngresoEgresoService
   ) {}
 
   initAuthListener() {
@@ -40,6 +42,7 @@ export class AuthService {
       } else {
         this.usuario = null;
         this.userSubs.unsubscribe();
+        this.store.dispatch(new UnsetUserAction());
       }
     });
   }
@@ -98,6 +101,8 @@ export class AuthService {
   logout() {
     this.afAuth.auth.signOut().then(() => {
       this.router.navigate(['/login']);
+      this.store.dispatch(new UnsetUserAction());
+      this.ingresoEgresoService.cancelarSubscriptions();
     });
   }
 

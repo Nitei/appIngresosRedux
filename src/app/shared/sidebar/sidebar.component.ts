@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
+import { IngresoEgresoService } from '../../ingreso-egreso/ingreso-egreso.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styles: []
+  styles: [],
 })
 export class SidebarComponent implements OnInit {
+  constructor(public authService: AuthService, public ingresoEgresoService: IngresoEgresoService) {}
 
-  constructor(public authService: AuthService) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   logout() {
     this.authService.logout();
   }
-
 }
