@@ -1,0 +1,10 @@
+{
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "sassFormat.useSingleQuotes": true,
+  "autoimport.doubleQuotes": false,
+  "tsimporter.doubleQuotes": false,
+  "vsprettier.singleQuote": true,
+  "editor.autoSurround": "quotes",
+  "files.trimTrailingWhitespace": true
+}
