@@ -15,7 +15,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let data of items">
+            <tr *ngFor="let data of items | ordenIngresoEgreso">
               <td>{{data.descripcion}}</td>
               <td>{{data.monto | currency }}</td>
               <td><span [ngClass]="{

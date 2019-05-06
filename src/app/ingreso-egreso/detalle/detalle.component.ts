@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class DetalleComponent implements OnInit, OnDestroy {
 
-  items: IngresoEgreso;
+  items: IngresoEgreso[] = [];
   subsStoreIngresosEgresos: Subscription = new Subscription;
 
   constructor(
