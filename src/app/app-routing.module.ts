@@ -16,7 +16,8 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     {
         path: '',
-        loadChildren: './ingreso-egreso/ingreso-egreso.module#IngresoEgresoModule'
+        loadChildren: './ingreso-egreso/ingreso-egreso.module#IngresoEgresoModule',
+        canLoad: [ AuthGuardService ]
     },
     { path: '**', redirectTo: 'login' }
 ];

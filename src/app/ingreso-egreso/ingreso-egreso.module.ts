@@ -10,12 +10,14 @@ import { ChartsModule } from 'ng2-charts';
 import { SharedModule } from '../shared/shared.module';
 import { dashboardRoutes } from '../dashboard/dashboard.routes';
 import { DashboardRoutingModule } from '../dashboard/dashboard-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     SharedModule,
     ChartsModule,
     ReactiveFormsModule,
+    RouterModule,
     CommonModule,
     DashboardRoutingModule
   ],
