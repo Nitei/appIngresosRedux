@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
+import { FormGroup } from '@angular/forms';
+import { TestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +11,10 @@ import { AppState } from '../../app.reducer';
   styles: []
 })
 export class LoginComponent implements OnInit {
+  form = {
+    email: 'test@test.com',
+    password: '123456'
+  };
 
   cargando: boolean;
 

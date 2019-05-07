@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
-import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { filter } from 'rxjs/operators';
@@ -16,12 +14,12 @@ export class NavbarComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    const coneguirNombre = this.store
+    const conseguirNombre = this.store
       .select('auth')
       .pipe(filter(auth => auth.user != null))
       .subscribe(auth => {
         this.nombre = auth.user.nombre;
-        coneguirNombre.unsubscribe();
+        conseguirNombre.unsubscribe();
       });
   }
 }

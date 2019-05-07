@@ -24,7 +24,7 @@ export class DetalleComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.subsStoreIngresosEgresos = this.store.select('IngresoEgreso')
+    this.subsStoreIngresosEgresos = this.store.select('ingresoEgreso')
       .pipe(
         filter( (item: any) => item.items.length != 0) )
         .subscribe( (ingresoEgreso: any) => {

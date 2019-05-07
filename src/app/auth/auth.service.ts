@@ -93,6 +93,7 @@ export class AuthService {
       })
       .catch((error: any) => {
         console.error(error);
+        this.store.dispatch(new UI.DesactivarLoadingAction());
         Swal.fire('Error en el login', error['message'], 'error');
       });
   }
