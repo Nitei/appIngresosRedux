@@ -10,14 +10,13 @@ import { Subscription } from 'rxjs';
   styles: []
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-
   cargando: boolean;
-  Subscription: Subscription = new Subscription;
+  Subscription: Subscription = new Subscription();
 
   constructor(
     private authService: AuthService,
-    private store: Store<AppState>,
-    ) { }
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit() {
     this.store.select('ui').subscribe(ui => {
@@ -32,5 +31,4 @@ export class RegisterComponent implements OnInit, OnDestroy {
   onSubmit(data: any) {
     this.authService.crearUsuario(data.nombre, data.email, data.password);
   }
-
 }

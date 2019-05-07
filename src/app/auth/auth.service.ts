@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { IngresoEgresoService } from '../ingreso-egreso/ingreso-egreso.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   public usuario: User;
@@ -24,8 +24,7 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private router: Router,
     private afDb: AngularFirestore,
-    private store: Store<AppState>,
-    public ingresoEgresoService: IngresoEgresoService
+    private store: Store<AppState>
   ) {}
 
   initAuthListener() {
@@ -66,7 +65,7 @@ export class AuthService {
         const user: User = {
           uid: resp.user.uid,
           nombre: nombre,
-          email: resp.user.email,
+          email: resp.user.email
         };
         this.afDb
           .doc(`${user.uid}/usuario`)
@@ -102,7 +101,6 @@ export class AuthService {
     this.afAuth.auth.signOut().then(() => {
       this.router.navigate(['/login']);
       this.store.dispatch(new UnsetUserAction());
-      this.ingresoEgresoService.cancelarSubscriptions();
     });
   }
 

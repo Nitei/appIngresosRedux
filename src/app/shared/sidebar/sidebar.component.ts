@@ -1,18 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
-import { IngresoEgresoService } from '../../ingreso-egreso/ingreso-egreso.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducer';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styles: [],
+  styles: []
 })
 export class SidebarComponent implements OnInit {
-  constructor(public authService: AuthService, public ingresoEgresoService: IngresoEgresoService) {}
+  nombre: string;
 
-  ngOnInit() {}
+  constructor(private store: Store<AppState>) {}
+
+  ngOnInit() {
+    const coneguirNombre = this.store
+      .select('auth')
+      .pipe(filter(auth => auth.user != null))
+      .subscribe(auth => {
+        this.nombre = auth.user.nombre;
+        coneguirNombre.unsubscribe();
+      });
+  }
 
   logout() {
-    this.authService.logout();
+    this.logout();
   }
 }
