@@ -8,9 +8,11 @@ import { OrdenIngresoEgresoPipe } from './orden-ingreso-egreso.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { SharedModule } from '../shared/shared.module';
-import { dashboardRoutes } from '../dashboard/dashboard.routes';
 import { DashboardRoutingModule } from '../dashboard/dashboard-routing.module';
 import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { appReducers } from '../app.reducer';
+import { IngresoEgresoReducer } from './ingreso-egreso.reducer';
 
 @NgModule({
   imports: [
@@ -19,7 +21,8 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    StoreModule.forFeature('ingresoEgreso', IngresoEgresoReducer),
   ],
   declarations: [
     DashboardComponent,

@@ -6,7 +6,7 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { IngresoEgresoService } from '../ingreso-egreso.service';
 import Swal from 'sweetalert2';
-
+import * as IE from '../ingreso-egreso.reducer';
 
 @Component({
   selector: 'app-detalle',
@@ -19,7 +19,7 @@ export class DetalleComponent implements OnInit, OnDestroy {
   subsStoreIngresosEgresos: Subscription = new Subscription;
 
   constructor(
-    private store: Store<AppState>,
+    private store: Store<IE.AppState>,
     public IES: IngresoEgresoService
   ) { }
 

@@ -1,8 +1,13 @@
 import * as IE from './ingreso-egreso.actions';
 import { IngresoEgreso } from './ingreso-egreso.model';
+import { AppState } from 'src/app/app.reducer';
 
 export interface IngresoEgresoState {
     items: IngresoEgreso[];
+}
+
+export interface AppState extends AppState {
+    ingresoEgreso: IngresoEgresoState;
 }
 
 const estadoInicial: IngresoEgresoState = {
@@ -22,7 +27,7 @@ export function IngresoEgresoReducer(state = estadoInicial, action: IE.acciones)
                     })
                 ]
             };
-        
+
         case IE.UNSET_ITEMS:
             return {
                 items: []

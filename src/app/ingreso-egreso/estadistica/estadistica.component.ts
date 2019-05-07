@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../app.reducer';
+import * as IE from '../ingreso-egreso.reducer';
 import { IngresoEgreso } from '../ingreso-egreso.model';
-import { subscribeOn } from 'rxjs/operators';
-import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-estadistica',
@@ -23,10 +21,10 @@ export class EstadisticaComponent implements OnInit {
 
   Subscription: Subscription = new Subscription();
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<IE.AppState>) {}
 
   ngOnInit() {
-    this.Subscription = this.store.select('IngresoEgreso').subscribe((ingresoEgreso: any) => {
+    this.Subscription = this.store.select('ingresoEgreso').subscribe((ingresoEgreso: any) => {
       this.contarIngresoEgresos(ingresoEgreso.items);
     });
   }
