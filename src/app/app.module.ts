@@ -23,7 +23,7 @@ import { IngresoEgresoModule } from './ingreso-egreso/ingreso-egreso.module';
     AppComponent
   ],
   imports: [
-    // IngresoEgresoModule,
+    IngresoEgresoModule,
     AuthModule,
     BrowserModule,
     AppRoutingModule,

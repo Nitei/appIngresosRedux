@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducer';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,7 +12,7 @@ import { filter } from 'rxjs/operators';
 export class SidebarComponent implements OnInit {
   nombre: string;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private auth: AuthService) {}
 
   ngOnInit() {
     const coneguirNombre = this.store
@@ -24,6 +25,6 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
-    this.logout();
+    this.auth.logout();
   }
 }
